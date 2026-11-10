@@ -1,0 +1,11 @@
+--num_envs 4096
+--visualize false
+
+--engine_config data/engines/isaac_gym_engine.yaml
+--env_config data/env/add_g1_spinkick_env.yaml
+--agent_config data/agents/add_g1_agent.yaml
+
+--logger tb
+
+--out_dir output/add_g1_spinkick/
+--save_int_models true

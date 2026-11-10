@@ -1,0 +1,52 @@
+{
+  "field": "pose",
+  "root": false, // false: 29DoF-only target; true: root+29DoF target.
+  "sample_dir": "$DATASET_ROOT/PDF-HR/samples/pose/<split>", // Single source only.
+  "output_dir": "$DATASET_ROOT/PDF-HR/checkpoints",
+  "run_name": "<split>_pose",
+  "resume": null, // Or an epoch_XXXX.pt/latest.pt checkpoint.
+  "save_interval": 5,
+  "model": {
+    "root_encoder": {
+      "hidden_dims": [32, 16],
+      "output_dim": 6,
+      "activation": "silu", // relu | silu | gelu | softplus | lrelu
+      "norm": "layernorm", // layernorm | null
+      "dropout": 0.0,
+      "beta": 100.0
+    },
+    "joint_encoder": {
+      "parent_mapping": "g1", // Or a 29-element parent-index list.
+      "per_joint_hidden_dims": [16],
+      "local_output_dim": 6,
+      "activation": "silu",
+      "norm": "layernorm",
+      "dropout": 0.0,
+      "beta": 100.0
+    },
+    "fusion": {"type": "concat"}, // Parameter-free concatenation.
+    "head": {
+      "hidden_dims": [256, 128, 64],
+      "activation": "softplus",
+      "output_activation": "softplus", // Guarantees a non-negative prediction.
+      "norm": null,
+      "dropout": 0.0,
+      "beta": 100.0
+    }
+  },
+  "train": {
+    "epochs": 50,
+    "batch_size": 8192, // Per GPU/process.
+    "max_files": 0, // 0 means all batch_*.npy shards.
+    "validation_fraction": 0.02,
+    "max_batches_per_epoch": 0, // Per process; 0 means all available batches.
+    "stats_max_batches": 64, // 0 means all training batches.
+    "loss": "mse", // mse | l1 | smooth_l1
+    "optimizer": {"type": "adamw", "lr": 0.001, "weight_decay": 0.00001},
+    "scheduler": {"type": "cosine", "min_lr": 0.00001}, // type: cosine | none
+    "device": "cuda", // cuda | cpu
+    "amp": true,
+    "pin_memory": true,
+    "random_seed": 42
+  }
+}

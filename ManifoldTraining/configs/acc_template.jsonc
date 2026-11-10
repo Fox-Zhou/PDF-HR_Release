@@ -1,0 +1,40 @@
+{
+  "field": "acc",
+  "root": true, // true: root+29DoF target; false: 29DoF-only target.
+  "sample_dir": "$DATASET_ROOT/PDF-HR/samples/acc/<split>",
+  "output_dir": "$DATASET_ROOT/PDF-HR/checkpoints",
+  "run_name": "<split>_acc",
+  "resume": null,
+  "save_interval": 5,
+  "model": {
+    "pose_encoder": {
+      "root_encoder": {"hidden_dims": [32, 16], "output_dim": 6, "activation": "silu", "norm": "layernorm", "dropout": 0.0, "beta": 100.0},
+      "joint_encoder": {"parent_mapping": "g1", "per_joint_hidden_dims": [16], "local_output_dim": 6, "activation": "silu", "norm": "layernorm", "dropout": 0.0, "beta": 100.0}
+    },
+    "velocity_encoder": {
+      "root_encoder": {"hidden_dims": [32, 16], "output_dim": 6, "activation": "silu", "norm": "layernorm", "dropout": 0.0, "beta": 100.0},
+      "joint_encoder": {"parent_mapping": "g1", "per_joint_hidden_dims": [16], "local_output_dim": 6, "activation": "silu", "norm": "layernorm", "dropout": 0.0, "beta": 100.0}
+    },
+    "acceleration_encoder": {
+      "root_encoder": {"hidden_dims": [32, 16], "output_dim": 6, "activation": "silu", "norm": "layernorm", "dropout": 0.0, "beta": 100.0},
+      "joint_encoder": {"parent_mapping": "g1", "per_joint_hidden_dims": [16], "local_output_dim": 6, "activation": "silu", "norm": "layernorm", "dropout": 0.0, "beta": 100.0}
+    },
+    "fusion": {"type": "concat"},
+    "head": {"hidden_dims": [512, 256, 128, 64], "activation": "softplus", "output_activation": "softplus", "norm": null, "dropout": 0.0, "beta": 100.0}
+  },
+  "train": {
+    "epochs": 50,
+    "batch_size": 8192, // Per process/GPU.
+    "max_files": 0,
+    "validation_fraction": 0.02,
+    "max_batches_per_epoch": 0,
+    "stats_max_batches": 64,
+    "loss": "mse", // mse | l1 | smooth_l1
+    "optimizer": {"type": "adamw", "lr": 0.001, "weight_decay": 0.00001},
+    "scheduler": {"type": "cosine", "min_lr": 0.00001},
+    "device": "cuda",
+    "amp": true,
+    "pin_memory": true,
+    "random_seed": 42
+  }
+}

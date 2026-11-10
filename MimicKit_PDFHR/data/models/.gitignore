@@ -1,0 +1,4 @@
+*
+!.gitignore
+!manifold/
+!manifold/pose_BS100_120M.pt

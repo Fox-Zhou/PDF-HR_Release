@@ -1,0 +1,28 @@
+name: PDFHR
+channels:
+  - pytorch
+  - nvidia
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.8
+  - pip
+  - numpy=1.23.5
+  - scipy
+  - pandas
+  - pyyaml
+  - tqdm
+  - matplotlib
+  - pytorch=1.13.1
+  - pytorch-cuda=11.7
+  - faiss-gpu=1.7.2
+  - pip:
+      - gymnasium==1.1.1
+      - moviepy
+      - pyglet
+      - tensorboardX==2.6.2.2
+      - wandb==0.17.4
+      - viser==1.0.30
+      - yourdfpy==0.0.60
+      - trimesh
+      - Pillow

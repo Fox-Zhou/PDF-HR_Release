@@ -1,0 +1,17 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pdfhr"
+version = "0.1.0"
+description = "Pose distance fields for humanoid control"
+readme = "README.md"
+requires-python = ">=3.8"
+dependencies = [
+  "numpy>=1.23,<2",
+  "torch>=1.13",
+]
+
+[tool.setuptools]
+packages = ["PDFHR"]
